@@ -11,4 +11,17 @@ class ProjectController extends Controller
         return Project::all();
     }
 
+    public function store(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable'
+        ]);
+
+        return Project::create($request->all());
+    }
+
+    public function show($id) {
+        return Project::findOrFail($id);
+    }
+
 }
