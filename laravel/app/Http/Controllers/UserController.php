@@ -25,5 +25,16 @@ class UserController extends Controller
         return User::findOrFail($id);
     }
 
+      public function update(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+
+        return $user;
+    }
+
+    public function destroy($id) {
+        User::findOrFail($id)->delete();
+        return response(null, 204);
+    }
    
 }
