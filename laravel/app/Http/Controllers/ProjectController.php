@@ -24,4 +24,16 @@ class ProjectController extends Controller
         return Project::findOrFail($id);
     }
 
+     public function update(Request $request, $id) {
+        $project = Project::findOrFail($id);
+        $project->update($request->all());
+
+        return $project;
+    }
+
+    public function destroy($id) {
+        Project::findOrFail($id)->delete();
+        return response(null, 204);
+    }
+
 }
