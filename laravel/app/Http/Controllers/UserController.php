@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
+    public function index() {
+        return User::all();
     }
 
-    public function create()
-    {
-        return view('users.create');
+    public function store(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ]);
+
+        return User::create($request->all());
     }
+
+    public function show($id) {
+        return User::findOrFail($id);
+    }
+
+   
 }
