@@ -4,7 +4,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\RequestCounter;
 
-// User Routes with Middleware
 Route::middleware(RequestCounter::class)->group(function () {
     Route::get('users', [UserController::class, 'index']);         
     Route::post('users/create', [UserController::class, 'store']);      

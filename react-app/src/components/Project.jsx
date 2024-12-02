@@ -1,23 +1,22 @@
-import MemberIcon from "./MemberIcon";
+import React, { useContext } from "react";
+import { ProjectsContext } from "../context/ProjectsContext";
+import Project from "../components/Project";
 
-const Project = ({ project }) => {
-  const { name, description, members } = project;
+const Projects = () => {
+  const { projects, loading, error } = useContext(ProjectsContext);
+
+  if (loading) return <p>Loading projects...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="project-card">
-      <div>
-        <h3>{name}</h3>
-        <div>
-          {members.map((m) => (
-            <MemberIcon user={m} key={m.id} />
-          ))}
-        </div>
-      </div>
-      <div>
-        <p>{description}</p>
-      </div>
+    <div className="projects-container">
+      {projects.length > 0 ? (
+        projects.map((p) => <Project project={p} key={p.id} />)
+      ) : (
+        <p>No projects available.</p>
+      )}
     </div>
   );
 };
 
-export default Project;
+export default Projects;
