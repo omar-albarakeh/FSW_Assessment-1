@@ -2,39 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return User::all();
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required',
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required|string',
         ]);
 
-        return User::create($request->all());
+        $data['password'] = bcrypt($data['password']);
+        return User::create($data);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         return User::findOrFail($id);
     }
 
-      public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $user = User::findOrFail($id);
         $user->update($request->all());
-
         return $user;
     }
 
-    public function destroy($id) {
-        User::findOrFail($id)->delete();
-        return response(null, 204);
+    public function destroy($id)
+    {
+        return User::destroy($id);
     }
-   
 }
